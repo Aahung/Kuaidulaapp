@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>50E23220-04DC-481B-B9CA-C64039409F5A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Kuaidula</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6D2660278D58D71B0F3A5D782BB1BA6643AB5C25</key>
+		<string>https://github.com/Aahung/kuaidula.git</string>
+		<key>A3B6880074A98F14E88B79A9A7720AEAF02A3A4B</key>
+		<string>https://github.com/Aahung/Kuaidulaapp.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>app/iOS/Kuaidula/Kuaidula.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6D2660278D58D71B0F3A5D782BB1BA6643AB5C25</key>
+		<string>../../../../../../kuaidula</string>
+		<key>A3B6880074A98F14E88B79A9A7720AEAF02A3A4B</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Aahung/Kuaidulaapp.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>A3B6880074A98F14E88B79A9A7720AEAF02A3A4B</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6D2660278D58D71B0F3A5D782BB1BA6643AB5C25</string>
+			<key>IDESourceControlWCCName</key>
+			<string>kuaidula</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A3B6880074A98F14E88B79A9A7720AEAF02A3A4B</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Kuaidulaapp</string>
+		</dict>
+	</array>
+</dict>
+</plist>
