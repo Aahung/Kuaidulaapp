@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B2B45F061A62C97A00420CBF /* ArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B45F051A62C97A00420CBF /* ArticleDetailViewController.swift */; };
 		B2FBE5E71A5922040055C95D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FBE5E61A5922040055C95D /* AppDelegate.swift */; };
 		B2FBE5EA1A5922040055C95D /* Kuaidula.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B2FBE5E81A5922040055C95D /* Kuaidula.xcdatamodeld */; };
 		B2FBE5EC1A5922040055C95D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FBE5EB1A5922040055C95D /* ViewController.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		B25862681A5C3A87005E7488 /* Kuaidula-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kuaidula-Bridging-Header.h"; sourceTree = "<group>"; };
+		B2B45F051A62C97A00420CBF /* ArticleDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleDetailViewController.swift; sourceTree = "<group>"; };
 		B2FBE5E11A5922030055C95D /* Kuaidula.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kuaidula.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2FBE5E51A5922040055C95D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2FBE5E61A5922040055C95D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				B25862681A5C3A87005E7488 /* Kuaidula-Bridging-Header.h */,
 				B2FBE5E61A5922040055C95D /* AppDelegate.swift */,
 				B2FBE5EB1A5922040055C95D /* ViewController.swift */,
+				B2B45F051A62C97A00420CBF /* ArticleDetailViewController.swift */,
 				B2FBE5ED1A5922040055C95D /* Main.storyboard */,
 				B2FBE5F01A5922040055C95D /* Images.xcassets */,
 				B2FBE5F21A5922040055C95D /* LaunchScreen.xib */,
@@ -219,6 +222,7 @@
 			files = (
 				B2FBE5EC1A5922040055C95D /* ViewController.swift in Sources */,
 				B2FBE5E71A5922040055C95D /* AppDelegate.swift in Sources */,
+				B2B45F061A62C97A00420CBF /* ArticleDetailViewController.swift in Sources */,
 				B2FBE5EA1A5922040055C95D /* Kuaidula.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,6 +14,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // tableView
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var navigationBarTitle: UINavigationItem!
+    
     // news
     var news = [NSManagedObject]()
     
@@ -37,12 +39,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         updateNews()
+        
+        let indexPath = self.tableView.indexPathForSelectedRow
+        self.tableView.reloadData()
+        if indexPath() != nil {
+            self.tableView.selectRowAtIndexPath(indexPath(), animated: false, scrollPosition: UITableViewScrollPosition.None)
+        }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
-        // Do any additional setup after loading the view, typically from a nib.
+        let indexPath = self.tableView.indexPathForSelectedRow
+        self.tableView.reloadData()
+        if indexPath() != nil {
+            self.tableView.deselectRowAtIndexPath(indexPath()!, animated: true)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,11 +62,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        println("segue to \(segue.identifier)")
+        if segue.identifier == "detail" {
+            let navigationC = segue.destinationViewController as UINavigationController
+            let destinationVC = navigationC.viewControllers[0] as ArticleDetailViewController
+            let indexPath = self.tableView.indexPathForCell(sender as UITableViewCell)
+            destinationVC.news = self.news[indexPath?.item as Int!]
+        }
+    }
     
     // UITableViewDataSource prototype methods
     func tableView(tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int {
-            return news.count
+        return news.count
     }
     
     func tableView(tableView: UITableView,
@@ -98,8 +119,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func updateNews() {
+        
+        navigationItem.title = "努力抓取新闻..."
+        
         let articleUrl = "http://app.kuaidula.com/0.1/articles/all"
         var request = NSMutableURLRequest(URL: NSURL(string: articleUrl)!)
+        
+        
         
         httpGet(request) {
             (data, error) -> Void in
@@ -107,6 +133,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 println(error)
             } else {
                 println("parsing json")
+                
                 let resObj = self.parseJSON(data)
                 let articles = resObj.valueForKey("articles") as NSArray
                 
@@ -120,6 +147,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     let title = article.valueForKey("title") as String
                     let timestamp = article.valueForKey("time") as NSNumber
                     let time = NSDate(timeIntervalSince1970: Double(timestamp))
+                    let paragraphs = article.valueForKey("paragraphs") as NSArray
                     
                     // check if id exist, if, then modify, else insert
                     var exists = false
@@ -137,14 +165,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         aNews.setValue(id, forKey: "id")
                         aNews.setValue(title, forKey: "title")
                         aNews.setValue(time, forKey: "time")
+                        aNews.setValue(paragraphs, forKey: "paragraphs")
                         var error: NSError?
                         if !managedContext.save(&error) {
                             println("Could not save \(error), \(error?.userInfo)")
                         }
                         self.news.append(aNews)
                     }
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.tableView.reloadData()
+                        self.navigationItem.title = "快读啦"
+                    })
                 }
-                self.tableView.reloadData()
             }
         }
         

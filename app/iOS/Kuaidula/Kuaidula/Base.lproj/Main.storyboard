@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="L0V-HR-swK">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -40,7 +41,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="DSI-dn-uEB" kind="show" id="4Ag-Tn-UP5"/>
+                                            <segue destination="DSI-dn-uEB" kind="show" identifier="detail" id="4Ag-Tn-UP5"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -66,6 +67,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="navigationItem" destination="TN1-1e-pNk" id="2rd-Ye-RhC"/>
                         <outlet property="tableView" destination="vl8-Nv-Iei" id="Sql-oG-mgd"/>
                     </connections>
                 </viewController>
@@ -73,10 +75,10 @@
             </objects>
             <point key="canvasLocation" x="1235" y="321"/>
         </scene>
-        <!--View Controller-->
+        <!--Article Detail View Controller-->
         <scene sceneID="HU6-m4-4jW">
             <objects>
-                <viewController id="hYu-0k-b3A" sceneMemberID="viewController">
+                <viewController id="hYu-0k-b3A" customClass="ArticleDetailViewController" customModule="Kuaidula" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="J4H-ah-fnE"/>
                         <viewControllerLayoutGuide type="bottom" id="2kr-YH-LmM"/>
@@ -84,7 +86,81 @@
                     <view key="view" contentMode="scaleToFill" id="MGo-yl-VBo">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BFV-Uw-Krz">
+                                <rect key="frame" x="156" y="72" width="288" height="96"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42" id="RFB-NK-NLs"/>
+                                    <constraint firstAttribute="width" constant="42" id="Tep-P4-Hr0"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="快读啦">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="96" name="STHeitiSC-Light"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="RFB-NK-NLs"/>
+                                        <exclude reference="Tep-P4-Hr0"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <view alpha="0.34999999999999964" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vc7-UO-05h">
+                                <rect key="frame" x="0.0" y="177" width="600" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="YaU-EW-WAd"/>
+                                </constraints>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKn-pP-6og">
+                                <rect key="frame" x="0.0" y="177" width="600" height="400"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="400" id="AcG-cf-L5s"/>
+                                    <constraint firstAttribute="height" constant="400" id="Sxa-LV-y1z"/>
+                                    <constraint firstAttribute="height" constant="10" id="bbZ-ZW-sAD"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Sxa-LV-y1z"/>
+                                        <exclude reference="bbZ-ZW-sAD"/>
+                                    </mask>
+                                </variation>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vc7-UO-05h" firstAttribute="bottom" secondItem="sKn-pP-6og" secondAttribute="bottom" id="78M-jy-ymf"/>
+                            <constraint firstAttribute="centerX" secondItem="sKn-pP-6og" secondAttribute="centerX" id="XY9-Nj-fth"/>
+                            <constraint firstItem="BFV-Uw-Krz" firstAttribute="bottom" secondItem="vc7-UO-05h" secondAttribute="bottom" constant="-10" id="Z2r-hr-vSc"/>
+                            <constraint firstItem="BFV-Uw-Krz" firstAttribute="top" secondItem="J4H-ah-fnE" secondAttribute="bottom" constant="8" symbolic="YES" id="bqD-IW-aDj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="sKn-pP-6og" secondAttribute="trailing" constant="-16" id="dQ5-6b-IqB"/>
+                            <constraint firstAttribute="centerX" secondItem="vc7-UO-05h" secondAttribute="centerX" id="dTO-XM-dPG"/>
+                            <constraint firstItem="vc7-UO-05h" firstAttribute="top" secondItem="sKn-pP-6og" secondAttribute="top" constant="-3" id="e0Q-Vl-Kna"/>
+                            <constraint firstAttribute="width" secondItem="sKn-pP-6og" secondAttribute="width" id="jf2-zz-aLr"/>
+                            <constraint firstItem="2kr-YH-LmM" firstAttribute="top" secondItem="BFV-Uw-Krz" secondAttribute="bottom" constant="507" id="nGL-O4-Ajx"/>
+                            <constraint firstItem="2kr-YH-LmM" firstAttribute="top" secondItem="BFV-Uw-Krz" secondAttribute="bottom" constant="507" id="p7A-e3-AQX"/>
+                            <constraint firstItem="BFV-Uw-Krz" firstAttribute="centerX" secondItem="MGo-yl-VBo" secondAttribute="centerX" id="qx5-J6-VF3"/>
+                            <constraint firstAttribute="width" secondItem="vc7-UO-05h" secondAttribute="width" id="xcL-YZ-eIJ"/>
+                            <constraint firstItem="BFV-Uw-Krz" firstAttribute="top" secondItem="J4H-ah-fnE" secondAttribute="bottom" constant="8" symbolic="YES" id="z8F-5e-RID"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="bqD-IW-aDj"/>
+                                <exclude reference="dQ5-6b-IqB"/>
+                                <exclude reference="78M-jy-ymf"/>
+                                <exclude reference="nGL-O4-Ajx"/>
+                                <exclude reference="p7A-e3-AQX"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="swF-X1-GJn">
                         <barButtonItem key="rightBarButtonItem" title="标记为已读" id="9qj-DZ-wR0">
@@ -94,6 +170,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="focusText" destination="BFV-Uw-Krz" id="AK6-OG-FXu"/>
+                        <outlet property="newsContent" destination="sKn-pP-6og" id="E2O-OA-Vom"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVp-Q4-Wlk" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="mPw-Yi-i9n" userLabel="Exit" sceneMemberID="exit"/>
