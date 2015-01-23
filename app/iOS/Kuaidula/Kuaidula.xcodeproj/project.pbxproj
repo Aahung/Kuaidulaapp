@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B23BE8881A6AA93800FA3DB9 /* ArticleOriginalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23BE8871A6AA93800FA3DB9 /* ArticleOriginalViewController.swift */; };
+		B2446C8B1A705326003566FE /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2446C8A1A705326003566FE /* TableViewCells.swift */; };
+		B24DA1BC1A6AE641000B3979 /* ArticleCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24DA1BB1A6AE641000B3979 /* ArticleCommentViewController.swift */; };
+		B26290721A7022C10046E427 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B26290711A7022C10046E427 /* Settings.bundle */; };
+		B264F99B1A6FE2E500D6251C /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B264F9911A6FE2AA00D6251C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B28568801A6BBB1500883CB7 /* ArticleCommentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B285687F1A6BBB1500883CB7 /* ArticleCommentTableCell.swift */; };
+		B29697D41A7033B6003E158B /* LeftSideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29697D31A7033B6003E158B /* LeftSideTableViewController.swift */; };
+		B2A4C6F01A6979BE00179A37 /* RightSideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A4C6EF1A6979BE00179A37 /* RightSideTableViewController.swift */; };
+		B2B45F061A62C97A00420CBF /* ArticleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B45F051A62C97A00420CBF /* ArticleDetailViewController.swift */; };
+		B2C58EB31A70406B009C8101 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C58EB21A70406B009C8101 /* ContainerViewController.swift */; };
+		B2F1D22E1A6BACB4006BDE69 /* ArticleTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F1D22D1A6BACB4006BDE69 /* ArticleTableCell.swift */; };
 		B2FBE5E71A5922040055C95D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FBE5E61A5922040055C95D /* AppDelegate.swift */; };
 		B2FBE5EA1A5922040055C95D /* Kuaidula.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B2FBE5E81A5922040055C95D /* Kuaidula.xcdatamodeld */; };
 		B2FBE5EC1A5922040055C95D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FBE5EB1A5922040055C95D /* ViewController.swift */; };
@@ -17,6 +28,41 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		B264F9901A6FE2AA00D6251C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
+		B264F9921A6FE2AA00D6251C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
+			remoteInfo = "Alamofire OSX";
+		};
+		B264F9941A6FE2AA00D6251C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
+			remoteInfo = AlamofireTests;
+		};
+		B264F9961A6FE2D000D6251C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
+		};
+		B264F9981A6FE2D200D6251C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3D19A95C8B0040E7D1;
+			remoteInfo = AlamofireTests;
+		};
 		B2FBE5FA1A5922040055C95D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B2FBE5D91A5922030055C95D /* Project object */;
@@ -26,8 +72,33 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B264F99A1A6FE2DA00D6251C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B264F99B1A6FE2E500D6251C /* Alamofire.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		B23BE8871A6AA93800FA3DB9 /* ArticleOriginalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleOriginalViewController.swift; sourceTree = "<group>"; };
+		B2446C8A1A705326003566FE /* TableViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
+		B24DA1BB1A6AE641000B3979 /* ArticleCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleCommentViewController.swift; sourceTree = "<group>"; };
 		B25862681A5C3A87005E7488 /* Kuaidula-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Kuaidula-Bridging-Header.h"; sourceTree = "<group>"; };
+		B26290711A7022C10046E427 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		B27D0A2B1A71F25300E4364C /* 2-add_read.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "2-add_read.xcdatamodel"; sourceTree = "<group>"; };
+		B285687F1A6BBB1500883CB7 /* ArticleCommentTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleCommentTableCell.swift; sourceTree = "<group>"; };
+		B29697D31A7033B6003E158B /* LeftSideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftSideTableViewController.swift; sourceTree = "<group>"; };
+		B2A4C6EF1A6979BE00179A37 /* RightSideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightSideTableViewController.swift; sourceTree = "<group>"; };
+		B2B45F051A62C97A00420CBF /* ArticleDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleDetailViewController.swift; sourceTree = "<group>"; };
+		B2C58EB21A70406B009C8101 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		B2F1D22D1A6BACB4006BDE69 /* ArticleTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleTableCell.swift; sourceTree = "<group>"; };
 		B2FBE5E11A5922030055C95D /* Kuaidula.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kuaidula.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2FBE5E51A5922040055C95D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2FBE5E61A5922040055C95D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -59,9 +130,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B264F98B1A6FE2AA00D6251C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B264F9911A6FE2AA00D6251C /* Alamofire.framework */,
+				B264F9931A6FE2AA00D6251C /* Alamofire.framework */,
+				B264F9951A6FE2AA00D6251C /* AlamofireTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B2FBE5D81A5922030055C95D = {
 			isa = PBXGroup;
 			children = (
+				B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */,
 				B2FBE5E31A5922030055C95D /* Kuaidula */,
 				B2FBE5FC1A5922040055C95D /* KuaidulaTests */,
 				B2FBE5E21A5922030055C95D /* Products */,
@@ -82,12 +164,22 @@
 			children = (
 				B25862681A5C3A87005E7488 /* Kuaidula-Bridging-Header.h */,
 				B2FBE5E61A5922040055C95D /* AppDelegate.swift */,
+				B2C58EB21A70406B009C8101 /* ContainerViewController.swift */,
 				B2FBE5EB1A5922040055C95D /* ViewController.swift */,
+				B2B45F051A62C97A00420CBF /* ArticleDetailViewController.swift */,
+				B23BE8871A6AA93800FA3DB9 /* ArticleOriginalViewController.swift */,
+				B24DA1BB1A6AE641000B3979 /* ArticleCommentViewController.swift */,
 				B2FBE5ED1A5922040055C95D /* Main.storyboard */,
+				B2F1D22D1A6BACB4006BDE69 /* ArticleTableCell.swift */,
+				B285687F1A6BBB1500883CB7 /* ArticleCommentTableCell.swift */,
 				B2FBE5F01A5922040055C95D /* Images.xcassets */,
 				B2FBE5F21A5922040055C95D /* LaunchScreen.xib */,
 				B2FBE5E81A5922040055C95D /* Kuaidula.xcdatamodeld */,
+				B26290711A7022C10046E427 /* Settings.bundle */,
 				B2FBE5E41A5922040055C95D /* Supporting Files */,
+				B29697D31A7033B6003E158B /* LeftSideTableViewController.swift */,
+				B2A4C6EF1A6979BE00179A37 /* RightSideTableViewController.swift */,
+				B2446C8A1A705326003566FE /* TableViewCells.swift */,
 			);
 			path = Kuaidula;
 			sourceTree = "<group>";
@@ -127,10 +219,13 @@
 				B2FBE5DD1A5922030055C95D /* Sources */,
 				B2FBE5DE1A5922030055C95D /* Frameworks */,
 				B2FBE5DF1A5922030055C95D /* Resources */,
+				B264F99A1A6FE2DA00D6251C /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B264F9991A6FE2D200D6251C /* PBXTargetDependency */,
+				B264F9971A6FE2D000D6251C /* PBXTargetDependency */,
 			);
 			name = Kuaidula;
 			productName = Kuaidula;
@@ -184,6 +279,12 @@
 			mainGroup = B2FBE5D81A5922030055C95D;
 			productRefGroup = B2FBE5E21A5922030055C95D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B264F98B1A6FE2AA00D6251C /* Products */;
+					ProjectRef = B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				B2FBE5E01A5922030055C95D /* Kuaidula */,
@@ -192,6 +293,30 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		B264F9911A6FE2AA00D6251C /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = B264F9901A6FE2AA00D6251C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B264F9931A6FE2AA00D6251C /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = B264F9921A6FE2AA00D6251C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B264F9951A6FE2AA00D6251C /* AlamofireTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AlamofireTests.xctest;
+			remoteRef = B264F9941A6FE2AA00D6251C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		B2FBE5DF1A5922030055C95D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
@@ -199,6 +324,7 @@
 			files = (
 				B2FBE5EF1A5922040055C95D /* Main.storyboard in Resources */,
 				B2FBE5F41A5922040055C95D /* LaunchScreen.xib in Resources */,
+				B26290721A7022C10046E427 /* Settings.bundle in Resources */,
 				B2FBE5F11A5922040055C95D /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,8 +343,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B23BE8881A6AA93800FA3DB9 /* ArticleOriginalViewController.swift in Sources */,
+				B2A4C6F01A6979BE00179A37 /* RightSideTableViewController.swift in Sources */,
+				B2F1D22E1A6BACB4006BDE69 /* ArticleTableCell.swift in Sources */,
+				B2C58EB31A70406B009C8101 /* ContainerViewController.swift in Sources */,
 				B2FBE5EC1A5922040055C95D /* ViewController.swift in Sources */,
+				B28568801A6BBB1500883CB7 /* ArticleCommentTableCell.swift in Sources */,
+				B2446C8B1A705326003566FE /* TableViewCells.swift in Sources */,
+				B29697D41A7033B6003E158B /* LeftSideTableViewController.swift in Sources */,
+				B24DA1BC1A6AE641000B3979 /* ArticleCommentViewController.swift in Sources */,
 				B2FBE5E71A5922040055C95D /* AppDelegate.swift in Sources */,
+				B2B45F061A62C97A00420CBF /* ArticleDetailViewController.swift in Sources */,
 				B2FBE5EA1A5922040055C95D /* Kuaidula.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +369,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		B264F9971A6FE2D000D6251C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = B264F9961A6FE2D000D6251C /* PBXContainerItemProxy */;
+		};
+		B264F9991A6FE2D200D6251C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AlamofireTests;
+			targetProxy = B264F9981A6FE2D200D6251C /* PBXContainerItemProxy */;
+		};
 		B2FBE5FB1A5922040055C95D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B2FBE5E01A5922030055C95D /* Kuaidula */;
@@ -344,10 +489,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Kuaidula/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Kuaidula/Kuaidula-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -357,9 +504,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Kuaidula/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Kuaidula/Kuaidula-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -433,6 +582,7 @@
 		B2FBE5E81A5922040055C95D /* Kuaidula.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B27D0A2B1A71F25300E4364C /* 2-add_read.xcdatamodel */,
 				B2FBE5E91A5922040055C95D /* Kuaidula.xcdatamodel */,
 			);
 			currentVersion = B2FBE5E91A5922040055C95D /* Kuaidula.xcdatamodel */;

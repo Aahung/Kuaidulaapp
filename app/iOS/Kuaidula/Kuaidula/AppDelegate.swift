@@ -13,10 +13,67 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    let cateShorts = ["all", "china", "world", "zonghe", "tech"]
+    let categories = [
+        "all": "所有新闻",
+        "china": "国内新闻",
+        "world": "国际新闻",
+        "zonghe": "综合新闻",
+        "tech": "科技新闻"
+    ]
+    
+    var news = [NSManagedObject]()
+    var filteredNews = [NSManagedObject]()
+    var categoryIndex = 0 // all
+    
+    func syncFromCoreDate() {
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        let fetchRequest = NSFetchRequest(entityName:"Article")
+        var error: NSError?
+        
+        let fetchedResults =
+        managedContext.executeFetchRequest(fetchRequest,
+            error: &error) as [NSManagedObject]?
+        if let results = fetchedResults {
+            appDelegate.news = results
+        } else {
+            println("Could not fetch \(error), \(error!.userInfo)")
+        }
+        
+        updateFilteredNews()
+    }
+    
+    func updateFilteredNews() {
+        self.filteredNews = self.news.filter({(news: NSManagedObject) -> Bool in
+            if self.categoryIndex == 0 {
+                return true
+            } else {
+                if let category = news.valueForKey("category") as? String {
+                    return category == self.cateShorts[self.categoryIndex]
+                }
+                return false
+            }
+        })
+        self.filteredNews.sort( {(lhs: NSManagedObject, rhs: NSManagedObject) -> Bool in
+            // you can have additional code here
+            let lhsInt = (lhs.valueForKey("time") as NSDate).timeIntervalSince1970
+            let rhsInt = (rhs.valueForKey("time") as NSDate).timeIntervalSince1970
+            return  lhsInt > rhsInt
+        })
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        let containerViewController = ContainerViewController()
+        
+        window!.rootViewController = containerViewController
+        window!.makeKeyAndVisible()
+        
         return true
     }
 
