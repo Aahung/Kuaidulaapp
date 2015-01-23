@@ -12,6 +12,7 @@
 		B24DA1BC1A6AE641000B3979 /* ArticleCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B24DA1BB1A6AE641000B3979 /* ArticleCommentViewController.swift */; };
 		B26290721A7022C10046E427 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B26290711A7022C10046E427 /* Settings.bundle */; };
 		B264F99B1A6FE2E500D6251C /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B264F9911A6FE2AA00D6251C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B27D9B731A7232B4002F510A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27D9B721A7232B4002F510A /* User.swift */; };
 		B28568801A6BBB1500883CB7 /* ArticleCommentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B285687F1A6BBB1500883CB7 /* ArticleCommentTableCell.swift */; };
 		B29697D41A7033B6003E158B /* LeftSideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B29697D31A7033B6003E158B /* LeftSideTableViewController.swift */; };
 		B2A4C6F01A6979BE00179A37 /* RightSideTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A4C6EF1A6979BE00179A37 /* RightSideTableViewController.swift */; };
@@ -93,6 +94,7 @@
 		B26290711A7022C10046E427 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		B264F98A1A6FE2AA00D6251C /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		B27D0A2B1A71F25300E4364C /* 2-add_read.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "2-add_read.xcdatamodel"; sourceTree = "<group>"; };
+		B27D9B721A7232B4002F510A /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B285687F1A6BBB1500883CB7 /* ArticleCommentTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleCommentTableCell.swift; sourceTree = "<group>"; };
 		B29697D31A7033B6003E158B /* LeftSideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftSideTableViewController.swift; sourceTree = "<group>"; };
 		B2A4C6EF1A6979BE00179A37 /* RightSideTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightSideTableViewController.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				B29697D31A7033B6003E158B /* LeftSideTableViewController.swift */,
 				B2A4C6EF1A6979BE00179A37 /* RightSideTableViewController.swift */,
 				B2446C8A1A705326003566FE /* TableViewCells.swift */,
+				B27D9B721A7232B4002F510A /* User.swift */,
 			);
 			path = Kuaidula;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27D9B731A7232B4002F510A /* User.swift in Sources */,
 				B23BE8881A6AA93800FA3DB9 /* ArticleOriginalViewController.swift in Sources */,
 				B2A4C6F01A6979BE00179A37 /* RightSideTableViewController.swift in Sources */,
 				B2F1D22E1A6BACB4006BDE69 /* ArticleTableCell.swift in Sources */,

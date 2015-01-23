@@ -489,14 +489,14 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lit-ih-3uB" id="6am-68-fIi">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Th6-Ka-Xvk">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="用户名" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Th6-Ka-Xvk">
                                                     <rect key="frame" x="68" y="11" width="68" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="昵称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vQC-OG-Nbi">
-                                                    <rect key="frame" x="68" y="8" width="524" height="30"/>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="昵称" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vQC-OG-Nbi">
+                                                    <rect key="frame" x="148" y="12" width="444" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -507,7 +507,7 @@
                                                 <constraint firstItem="Th6-Ka-Xvk" firstAttribute="leading" secondItem="6am-68-fIi" secondAttribute="leadingMargin" constant="60" id="IBB-F8-BBe"/>
                                                 <constraint firstItem="vQC-OG-Nbi" firstAttribute="trailing" secondItem="6am-68-fIi" secondAttribute="trailingMargin" id="SJU-Ro-xud"/>
                                                 <constraint firstItem="Th6-Ka-Xvk" firstAttribute="centerY" secondItem="6am-68-fIi" secondAttribute="centerY" id="gkl-vu-wPc"/>
-                                                <constraint firstItem="vQC-OG-Nbi" firstAttribute="leading" secondItem="6am-68-fIi" secondAttribute="leadingMargin" constant="60" id="hUV-Ar-VXK"/>
+                                                <constraint firstItem="vQC-OG-Nbi" firstAttribute="leading" secondItem="6am-68-fIi" secondAttribute="leadingMargin" constant="140" id="hUV-Ar-VXK"/>
                                                 <constraint firstItem="vQC-OG-Nbi" firstAttribute="baseline" secondItem="Th6-Ka-Xvk" secondAttribute="baseline" id="hkL-KU-pUP"/>
                                             </constraints>
                                             <variation key="default">

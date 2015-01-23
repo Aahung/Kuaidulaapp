@@ -19,6 +19,8 @@ class RightSideTableViewController: UITableViewController, UITableViewDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
+        
+        nametextField.text = User().getUserName()
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -65,7 +67,10 @@ class RightSideTableViewController: UITableViewController, UITableViewDelegate, 
     
     func handleOnTapAnywhereButKeyboard() -> Bool {
         println("touchesBegan")
-        nametextField.endEditing(true)
+        if nametextField.text != "" {
+            nametextField.endEditing(true)
+            User().saveUserName(nametextField.text)
+        }
         return false
     }
     

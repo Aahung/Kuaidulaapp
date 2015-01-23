@@ -108,7 +108,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // UITableViewDataSource prototype methods
     func tableView(tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int {
-        return appDelegate.filteredNews.count
+            // return atmost 50
+            
+            if appDelegate.filteredNews.count > 50 {
+                return 50
+            }
+            return appDelegate.filteredNews.count
     }
     
     func tableView(tableView: UITableView,

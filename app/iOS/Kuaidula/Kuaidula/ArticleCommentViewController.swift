@@ -132,7 +132,7 @@ class ArticleCommentViewController: UIViewController, UIGestureRecognizerDelegat
         let date = NSDate()
         let timestamp = date.timeIntervalSince1970
         let content = textField.text
-        var params = ["name":"神经病", "time": "\(timestamp)", "content": content] as Dictionary<String, String>
+        var params = ["name": User().getUserName(), "time": "\(timestamp)", "content": content] as Dictionary<String, String>
         
         var err: NSError?
         request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: nil, error: &err)
