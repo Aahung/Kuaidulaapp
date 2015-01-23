@@ -7,6 +7,7 @@ import time
 import chardet
 import jieba
 from time import gmtime, strftime
+headers = {'content-type':'application/json'}
 f = open('rss_url', 'r')
 China_url = f.readline()
 len_china = len(China_url)
@@ -20,8 +21,10 @@ Zonghe_url = f.readline()
 len_zong = len(Zonghe_url)
 Zonghe_url = Zonghe_url[6:len_zong-1]
 
+Kejix_url = f.readline()
+Kejix_url = Kejix_url[6:]
+
 f.close()
-headers = {'content-type':'application/json'}
 def run_it():
 	print "run_it"
 	conn = sqlite3.connect('news_source.db')
@@ -71,6 +74,20 @@ def run_it():
 		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','world','" + "0" + "')"
 		c.execute(sql)
 		conn.commit()
+	try:
+		tree = ET.parse(Kejix_url)#kejixun
+	except Exception, e:
+		return "xml_kejix"
+	root = tree.getroot()
+	for item in root[0][11:]:
+		title = item[0].text.encode('utf-8')
+		url = item[1].text.encode('utf-8')
+		if item[5].text is None:
+			item[5].text = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+		time = item[5].text.encode('utf-8')
+		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','kejix','" + "0" + "')"
+		c.execute(sql)
+		conn.commit()
 	conn.close()
 	mid_newspaper()
 
@@ -84,11 +101,7 @@ def newspaper_processing(url,category):
 	except Exception, e:
 		print str(e)
 		return False
-	try:
-                myChar = chardet.detect(temp.html[:2000])
-        except Exception, e:
-                print str(e)
-                return False
+	myChar = chardet.detect(temp.html[:2000])
 	bianma = myChar['encoding']
 	if bianma == 'utf-8' or bianma == 'UTF-8':
 		#html=html.decode('utf-8','ignore').encode('utf-8')
@@ -168,7 +181,9 @@ def mid_newspaper():
 
 while True:
 	returned = run_it()
-	if returned == "xml_china":
+	if returned == "xml_kejix":
+		print "cannot load parse xml_kejix"
+	elif returned == 'xml_china':
 		print "cannot load parse xml_china"
 	elif returned == "xml_zonghe":
 		print "cannot load parse xml_zonghe"
