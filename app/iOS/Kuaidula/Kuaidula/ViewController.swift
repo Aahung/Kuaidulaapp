@@ -8,6 +8,14 @@
 
 import UIKit
 import CoreData
+import Alamofire
+
+@objc
+protocol CenterViewControllerDelegate {
+    optional func toggleLeftPanel()
+    optional func toggleRightPanel()
+    optional func collapseSidePanels()
+}
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -16,14 +24,228 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var navigationBarTitle: UINavigationItem!
     
-    // news
-    var news = [NSManagedObject]()
+    @IBOutlet weak var barMenuButton: UIBarButtonItem!
+    
+    @IBOutlet weak var noNewsLabel: UILabel!
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    
+    var refreshControl: UIRefreshControl?
+    
+    var delegate: CenterViewControllerDelegate?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl!.attributedTitle = NSAttributedString(string: "拖一下就刷新")
+        self.refreshControl!.addTarget(self, action: "updateNews", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl!)
+
+        self.tableView.tableFooterView = UIView()
+        
+        self.noNewsLabel.hidden = true
+        
+        self.appDelegate.syncFromCoreDate()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let indexPath = self.tableView.indexPathForSelectedRow
+        self.updateView()
+        if indexPath() != nil {
+            self.tableView.deselectRowAtIndexPath(indexPath()!, animated: true)
+        }
+        self.appDelegate.syncFromCoreDate()
+        self.updateView()
+    }
     
     override func viewWillAppear(animated: Bool) {
-        
-        
         super.viewWillAppear(animated)
+        self.appDelegate.syncFromCoreDate()
+    }
+    
+    override func supportedInterfaceOrientations() -> Int {
+        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    }
+    
+    @IBAction func leftMenuToggleAction(sender: AnyObject) {
+        delegate?.toggleLeftPanel!()
+    }
+    
+    @IBAction func settingsMenuAction(sender: AnyObject) {
+        delegate?.toggleRightPanel!()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        println("segue to \(segue.identifier)")
+        if segue.identifier == "detail" {
+            let navigationC = segue.destinationViewController as UINavigationController
+            let destinationVC = navigationC.viewControllers[0] as ArticleDetailViewController
+            let indexPath = sender as NSIndexPath?
+            let selectedNews = appDelegate.filteredNews[indexPath?.item as Int!]
+            selectedNews.setValue(true, forKey: "read")
+            let managedContext = appDelegate.managedObjectContext!
+            var error: NSError?
+            // Save the object to persistent store
+            managedContext.save(&error)
+            destinationVC.news = selectedNews
+        }
+    }
+    
+    func updateView() {
+        self.tableView.reloadData()
+        self.navigationItem.title = appDelegate.categories[appDelegate.cateShorts[appDelegate.categoryIndex]]
+        if appDelegate.filteredNews.count == 0 {
+            // no news
+            self.noNewsLabel.hidden = false
+        } else {
+            self.noNewsLabel.hidden = true
+        }
+    }
+    
+    // UITableViewDataSource prototype methods
+    func tableView(tableView: UITableView,
+        numberOfRowsInSection section: Int) -> Int {
+        return appDelegate.filteredNews.count
+    }
+    
+    func tableView(tableView: UITableView,
+        cellForRowAtIndexPath
+        indexPath: NSIndexPath) -> UITableViewCell {
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("NewsCell")
+                as ArticleTableCell
+            
+            let news = appDelegate.filteredNews[indexPath.row]
+            cell.contentLabel?.text = news.valueForKey("title") as String?
+            cell.contentLabel?.numberOfLines = 0
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd h:mm a"
+            let dateObj: AnyObject? = news.valueForKey("time")
+            if dateObj != nil {
+                let date = dateObj as NSDate
+                cell.timeAndSourceLabel?.text = dateFormatter.stringFromDate(date)
+            }
+            
+            var category = news.valueForKey("category") as String
+            if contains(appDelegate.cateShorts, category) {
+                category = appDelegate.categories[category]!
+            }
+            cell.categoryLabel.text = category
+            
+            let read = news.valueForKey("read") as Bool?
+            
+            if read != nil && read! {
+                cell.contentView.alpha = 0.3
+            } else {
+                cell.contentView.alpha = 1.0
+            }
+            
+            return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        self.performSegueWithIdentifier("detail", sender: indexPath)
+    
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        let news = appDelegate.filteredNews[indexPath.row]
+        let content = news.valueForKey("title") as String?
+        
+        let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        let attributedString = NSAttributedString(string: content!, attributes: [NSFontAttributeName: font])
+        let rect = attributedString.boundingRectWithSize(CGSize(width: UIScreen.mainScreen().bounds.width - 20, height: 1000.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        
+        let size = rect.size
+        // println("width: \(UIScreen.mainScreen().bounds.width), height: \(size.height)")
+        return size.height + 40
+    }
+    
+    func updateNews() {
+        
+        self.navigationItem.title = "努力下载中。。。"
+        self.refreshControl!.beginRefreshing()
+        
+        self.appDelegate.syncFromCoreDate()
+        
+        Alamofire.request(.GET, "http://app.kuaidula.com/0.1/articles/uncensored", parameters: ["foo": "bar"])
+            .responseJSON { (request, response, JSON, error) in
+                if error != nil {
+                    println(error)
+                } else {
+                    
+                    let articles = JSON!.valueForKey("articles") as NSArray
+                    
+                    // core data
+                    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                    let managedContext = appDelegate.managedObjectContext!
+                    let entity =  NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext)
+                    
+                    for article in articles {
+                        let id = article.valueForKey("_id") as String
+                        let title = article.valueForKey("title") as String
+                        let category = article.valueForKey("category") as String?
+                        let url = article.valueForKey("url") as String
+                        let timestamp = article.valueForKey("time") as NSNumber
+                        let time = NSDate(timeIntervalSince1970: Double(timestamp))
+                        let paragraphs = article.valueForKey("paragraphs") as NSArray
+                        let keywords = article.valueForKey("keywords") as NSArray
+                        let v = (article.valueForKey("__v") as NSNumber).integerValue
+                        
+                        // check if id exist, if, then modify, else insert
+                        var exists = false
+                        for existingNews in appDelegate.news {
+                            let existingId = existingNews.valueForKey("id") as String
+                            if existingId == id {
+                                exists = true
+                                break
+                            }
+                        }
+                        
+                        if !exists {
+                            let aNews = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext)
+                            aNews.setValue(id, forKey: "id")
+                            aNews.setValue(title, forKey: "title")
+                            if category != nil {
+                                aNews.setValue(category, forKey: "category")
+                            } else {
+                                aNews.setValue("", forKey: "category")
+                            }
+                            aNews.setValue(url, forKey: "url")
+                            aNews.setValue(time, forKey: "time")
+                            aNews.setValue(paragraphs, forKey: "paragraphs")
+                            aNews.setValue(keywords, forKey: "keywords")
+                            aNews.setValue(v, forKey: "v")
+                            var error: NSError?
+                            if !managedContext.save(&error) {
+                                println("Could not save \(error), \(error?.userInfo)")
+                            }
+                            appDelegate.news.append(aNews)
+                        }
+                    }
+                    
+                    appDelegate.updateFilteredNews()
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.updateView()
+                        self.refreshControl!.endRefreshing()
+                    })
+                    
+                }
+        }
+        
+    }
+    
+}
+
+
+class CleanCacheViewController: UIViewController {
+    func cleanCache() {
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest(entityName:"Article")
@@ -33,155 +255,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         managedContext.executeFetchRequest(fetchRequest,
             error: &error) as [NSManagedObject]?
         if let results = fetchedResults {
-            news = results
+            for news in results {
+                managedContext.deleteObject(news)
+            }
+            managedContext.save(nil)
         } else {
             println("Could not fetch \(error), \(error!.userInfo)")
-        }
-        
-        updateNews()
-        
-        let indexPath = self.tableView.indexPathForSelectedRow
-        self.tableView.reloadData()
-        if indexPath() != nil {
-            self.tableView.selectRowAtIndexPath(indexPath(), animated: false, scrollPosition: UITableViewScrollPosition.None)
         }
     }
     
     override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        let indexPath = self.tableView.indexPathForSelectedRow
-        self.tableView.reloadData()
-        if indexPath() != nil {
-            self.tableView.deselectRowAtIndexPath(indexPath()!, animated: true)
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        super.viewDidAppear(true)
+        cleanCache()
+        let nextTimer = NSTimer.scheduledTimerWithTimeInterval(0.6, target: self, selector: "closeAction", userInfo: nil, repeats: false)
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        println("segue to \(segue.identifier)")
-        if segue.identifier == "detail" {
-            let navigationC = segue.destinationViewController as UINavigationController
-            let destinationVC = navigationC.viewControllers[0] as ArticleDetailViewController
-            let indexPath = self.tableView.indexPathForCell(sender as UITableViewCell)
-            destinationVC.news = self.news[indexPath?.item as Int!]
-        }
+    func closeAction() {
+        self.dismissViewControllerAnimated(true, completion: {})
     }
-    
-    // UITableViewDataSource prototype methods
-    func tableView(tableView: UITableView,
-        numberOfRowsInSection section: Int) -> Int {
-        return news.count
-    }
-    
-    func tableView(tableView: UITableView,
-        cellForRowAtIndexPath
-        indexPath: NSIndexPath) -> UITableViewCell {
-            
-            let cell = tableView.dequeueReusableCellWithIdentifier("NewsCell")
-                as UITableViewCell
-            
-            cell.textLabel!.text = news[indexPath.row].valueForKey("title") as String?
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd h:mm a"
-            cell.detailTextLabel?.text = dateFormatter.stringFromDate(news[indexPath.row].valueForKey("time") as NSDate)
-            
-            return cell
-    }
-    
-    // network, JSON
-    func httpGet(request: NSURLRequest!, callback: (NSData, String?) -> Void) {
-        var session = NSURLSession.sharedSession()
-        var task = session.dataTaskWithRequest(request){
-            (data, response, error) -> Void in
-            if error != nil {
-                callback(data, error.localizedDescription)
-            } else {
-                callback(data, nil)
-            }
-        }
-        task.resume()
-    }
-    
-    func getJSON(urlToRequest: String) -> NSData{
-        return NSData(contentsOfURL: NSURL(string: urlToRequest)!)!
-    }
-    
-    func parseJSON(inputData: NSData) -> NSDictionary{
-        var error: NSError?
-        var boardsDictionary: NSDictionary = NSJSONSerialization.JSONObjectWithData(inputData, options: NSJSONReadingOptions.MutableContainers, error: &error) as NSDictionary
-        
-        return boardsDictionary
-    }
-    
-    func updateNews() {
-        
-        navigationItem.title = "努力抓取新闻..."
-        
-        let articleUrl = "http://app.kuaidula.com/0.1/articles/all"
-        var request = NSMutableURLRequest(URL: NSURL(string: articleUrl)!)
-        
-        
-        
-        httpGet(request) {
-            (data, error) -> Void in
-            if error != nil {
-                println(error)
-            } else {
-                println("parsing json")
-                
-                let resObj = self.parseJSON(data)
-                let articles = resObj.valueForKey("articles") as NSArray
-                
-                // core data
-                let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-                let managedContext = appDelegate.managedObjectContext!
-                let entity =  NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext)
-                
-                for article in articles {
-                    let id = article.valueForKey("_id") as String
-                    let title = article.valueForKey("title") as String
-                    let timestamp = article.valueForKey("time") as NSNumber
-                    let time = NSDate(timeIntervalSince1970: Double(timestamp))
-                    let paragraphs = article.valueForKey("paragraphs") as NSArray
-                    
-                    // check if id exist, if, then modify, else insert
-                    var exists = false
-                    for existingNews in self.news {
-                        let existingId = existingNews.valueForKey("id") as String
-                        if existingId == id {
-                            exists = true
-                            break
-                        }
-                    }
-                    if exists {
-                        
-                    } else {
-                        let aNews = NSManagedObject(entity: entity!, insertIntoManagedObjectContext:managedContext)
-                        aNews.setValue(id, forKey: "id")
-                        aNews.setValue(title, forKey: "title")
-                        aNews.setValue(time, forKey: "time")
-                        aNews.setValue(paragraphs, forKey: "paragraphs")
-                        var error: NSError?
-                        if !managedContext.save(&error) {
-                            println("Could not save \(error), \(error?.userInfo)")
-                        }
-                        self.news.append(aNews)
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.tableView.reloadData()
-                        self.navigationItem.title = "快读啦"
-                    })
-                }
-            }
-        }
-        
-    }
-    
 }
 
