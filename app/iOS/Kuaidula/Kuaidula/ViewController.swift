@@ -26,7 +26,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var barMenuButton: UIBarButtonItem!
     
-    @IBOutlet weak var noNewsLabel: UILabel!
+    var containerViewController: ContainerViewController?
+    
+    @IBOutlet weak var noNewsImage: UIImageView!
     
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
     
@@ -44,26 +46,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
         self.tableView.tableFooterView = UIView()
         
-        self.noNewsLabel.hidden = true
+        self.noNewsImage.hidden = true
         
         self.appDelegate.syncFromCoreDate()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if appDelegate.filteredNews.count == 0 {
+            // no news
+            self.noNewsImage.hidden = false
+        } else {
+            self.noNewsImage.hidden = true
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         let indexPath = self.tableView.indexPathForSelectedRow
-        self.updateView()
         if indexPath() != nil {
             self.tableView.deselectRowAtIndexPath(indexPath()!, animated: true)
         }
-        self.appDelegate.syncFromCoreDate()
+        
         self.updateView()
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.appDelegate.syncFromCoreDate()
     }
     
     override func supportedInterfaceOrientations() -> Int {
@@ -99,9 +105,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.navigationItem.title = appDelegate.categories[appDelegate.cateShorts[appDelegate.categoryIndex]]
         if appDelegate.filteredNews.count == 0 {
             // no news
-            self.noNewsLabel.hidden = false
+            self.noNewsImage.hidden = false
         } else {
-            self.noNewsLabel.hidden = true
+            self.noNewsImage.hidden = true
         }
     }
     
@@ -152,9 +158,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        self.performSegueWithIdentifier("detail", sender: indexPath)
-    
+        // if not side menu, then segue
+        if self.containerViewController!.isBothCollapsed() {
+            self.performSegueWithIdentifier("detail", sender: indexPath)
+        } else {
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -178,7 +187,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         self.appDelegate.syncFromCoreDate()
         
-        Alamofire.request(.GET, "http://app.kuaidula.com/0.1/articles/uncensored", parameters: ["foo": "bar"])
+        var startId = "0"
+        let endId = "0"
+        if self.appDelegate.news.count > 0 {
+            startId = self.appDelegate.getLargestNewsId()
+        }
+        
+        Alamofire.request(.GET, "http://app.kuaidula.com/0.2/articles/uncensored/\(startId)/\(endId)/", parameters: ["foo": "bar"])
             .responseJSON { (request, response, JSON, error) in
                 if error != nil {
                     println(error)
@@ -187,8 +202,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     let articles = JSON!.valueForKey("articles") as NSArray
                     
                     // core data
-                    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-                    let managedContext = appDelegate.managedObjectContext!
+                    let managedContext = self.appDelegate.managedObjectContext!
                     let entity =  NSEntityDescription.entityForName("Article", inManagedObjectContext: managedContext)
                     
                     for article in articles {
@@ -204,7 +218,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                         
                         // check if id exist, if, then modify, else insert
                         var exists = false
-                        for existingNews in appDelegate.news {
+                        for existingNews in self.appDelegate.news {
                             let existingId = existingNews.valueForKey("id") as String
                             if existingId == id {
                                 exists = true
@@ -230,53 +244,62 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             if !managedContext.save(&error) {
                                 println("Could not save \(error), \(error?.userInfo)")
                             }
-                            appDelegate.news.append(aNews)
+                            self.appDelegate.news.append(aNews)
                         }
+                    
+                        
+                        self.appDelegate.updateFilteredNews()
+                    
+                        dispatch_async(dispatch_get_main_queue(), {
+                            self.updateView()
+                            self.refreshControl!.endRefreshing()
+                        })
                     }
-                    
-                    appDelegate.updateFilteredNews()
-                    
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.updateView()
-                        self.refreshControl!.endRefreshing()
-                    })
-                    
                 }
         }
         
     }
-    
 }
 
-
 class CleanCacheViewController: UIViewController {
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    
+    var centerViewController: ViewController?
+    
     func cleanCache() {
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest(entityName:"Article")
-        var error: NSError?
         
-        let fetchedResults =
-        managedContext.executeFetchRequest(fetchRequest,
-            error: &error) as [NSManagedObject]?
-        if let results = fetchedResults {
-            for news in results {
-                managedContext.deleteObject(news)
+        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        dispatch_async(backgroundQueue, {
+            
+            let managedContext = self.appDelegate.managedObjectContext!
+            let fetchRequest = NSFetchRequest(entityName:"Article")
+            var error: NSError?
+            
+            let fetchedResults =
+            managedContext.executeFetchRequest(fetchRequest,
+                error: &error) as [NSManagedObject]?
+            if let results = fetchedResults {
+                for news in results {
+                    managedContext.deleteObject(news)
+                }
+                managedContext.save(nil)
+                self.appDelegate.news = [NSManagedObject]()
+                self.appDelegate.updateFilteredNews()
+                self.closeAction()
+            } else {
+                println("Could not fetch \(error), \(error!.userInfo)")
             }
-            managedContext.save(nil)
-        } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
-        }
+        })
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
         cleanCache()
-        let nextTimer = NSTimer.scheduledTimerWithTimeInterval(0.6, target: self, selector: "closeAction", userInfo: nil, repeats: false)
     }
     
     func closeAction() {
         self.dismissViewControllerAnimated(true, completion: {})
     }
 }
-

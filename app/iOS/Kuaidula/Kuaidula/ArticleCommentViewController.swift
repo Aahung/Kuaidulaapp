@@ -25,9 +25,12 @@ class ArticleCommentViewController: UIViewController, UIGestureRecognizerDelegat
     
     var comments = [Comment]()
     
+    var originalViewRect: CGRect?
     @IBOutlet weak var textField: UITextField!
     
     @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var noCommentImage: UIImageView!
     
     var refreshControl: UIRefreshControl?
     
@@ -54,6 +57,12 @@ class ArticleCommentViewController: UIViewController, UIGestureRecognizerDelegat
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "handleOnTapAnywhereButKeyboard")
         tapRecognizer.delegate = self //delegate event notifications to this class
         self.view.addGestureRecognizer(tapRecognizer)
+        
+        if self.comments.count == 0 {
+            noCommentImage.hidden = false
+        } else {
+            noCommentImage.hidden = true
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -65,6 +74,7 @@ class ArticleCommentViewController: UIViewController, UIGestureRecognizerDelegat
     
     override func viewDidAppear(animated: Bool) {
         self.tableView.reloadData()
+        self.originalViewRect = self.view.frame
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,14 +108,15 @@ class ArticleCommentViewController: UIViewController, UIGestureRecognizerDelegat
     func setViewMovedUp(movedUp : Bool, keyboardHeight : CGFloat){
         
         UIView.beginAnimations(nil, context: nil)
-        UIView.setAnimationDuration(0.3)
+        UIView.setAnimationDuration(0.5)
     
-        var rect : CGRect = self.view.frame;
+        var rect : CGRect = self.originalViewRect!
         // reset view
-        rect.origin.x = 0
-        rect.origin.y = 0
+        // rect.origin.x = 0
+        // rect.origin.y = 0
         if movedUp {
-            rect = CGRectOffset(rect, 0, -keyboardHeight)
+            // rect = CGRectOffset(rect, 0, -keyboardHeight)
+            rect = CGRect(origin: rect.origin, size: CGSize(width: originalViewRect!.width, height: originalViewRect!.height - keyboardHeight))
         }
         self.view.frame = rect
     
@@ -256,6 +267,11 @@ class ArticleCommentViewController: UIViewController, UIGestureRecognizerDelegat
                 
                 dispatch_async(dispatch_get_main_queue(), {
                     self.tableView.reloadData()
+                    if self.comments.count == 0 {
+                        self.noCommentImage.hidden = false
+                    } else {
+                        self.noCommentImage.hidden = true
+                    }
                 })
             }
         }

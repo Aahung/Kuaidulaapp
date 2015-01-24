@@ -20,6 +20,11 @@ class ArticleOriginalViewController : UIViewController {
         articleOriginalText.text = getParagraphText()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.articleOriginalText.setContentOffset(CGPoint(x: 0, y: -60), animated: true)
+    }
+    
     func getParagraphText() -> String {
         var text : String = ""
         
@@ -32,6 +37,7 @@ class ArticleOriginalViewController : UIViewController {
                     text = "\(text)\(word)"
                 }
             }
+            text = "\(text)\n"
         }
         
         return text

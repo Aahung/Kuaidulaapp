@@ -59,6 +59,13 @@ class RightSideTableViewController: UITableViewController, UITableViewDelegate, 
         self.view.addGestureRecognizer(tapRecognizer)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "clean" {
+            let destVC = segue.destinationViewController as CleanCacheViewController
+            destVC.centerViewController = self.containerViewController?.centerViewController
+        }
+    }
+    
     func alert(title: String, message: String) {
         var alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
@@ -74,4 +81,10 @@ class RightSideTableViewController: UITableViewController, UITableViewDelegate, 
         return false
     }
     
+    @IBAction func usernameDidEndEditing(sender: AnyObject) {
+        if nametextField.text != "" {
+            nametextField.endEditing(true)
+            User().saveUserName(nametextField.text)
+        }
+    }
 }

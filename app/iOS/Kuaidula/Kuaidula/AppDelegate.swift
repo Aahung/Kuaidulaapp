@@ -14,13 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    let cateShorts = ["all", "china", "world", "zonghe", "tech"]
+    let cateShorts = ["all", "china", "world", "zonghe", "kejix"]
     let categories = [
         "all": "所有新闻",
         "china": "国内新闻",
         "world": "国际新闻",
         "zonghe": "综合新闻",
-        "tech": "科技新闻"
+        "kejix": "科技新闻"
     ]
     
     var news = [NSManagedObject]()
@@ -64,6 +64,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         })
     }
 
+    func getLargestNewsId() -> String{
+        return self.news.sorted( {(lhs: NSManagedObject, rhs: NSManagedObject) -> Bool in
+            // you can have additional code here
+            let lhsId = lhs.valueForKey("id") as String
+            let rhsId = rhs.valueForKey("id") as String
+            return  lhsId > rhsId
+        })[0].valueForKey("id") as String
+    }
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         

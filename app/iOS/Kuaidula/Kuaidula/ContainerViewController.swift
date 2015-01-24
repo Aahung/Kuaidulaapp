@@ -28,6 +28,10 @@ class ContainerViewController: UIViewController, CenterViewControllerDelegate, U
         }
     }
 
+    func isBothCollapsed() -> Bool {
+        return currentState == .BothCollapsed
+    }
+    
     var leftViewController: LeftSideTableViewController?
     var rightViewController: RightSideTableViewController?
     
@@ -37,6 +41,7 @@ class ContainerViewController: UIViewController, CenterViewControllerDelegate, U
         super.viewDidLoad()
         
         centerViewController = UIStoryboard.centerViewController()
+        centerViewController.containerViewController = self
         centerViewController.delegate = self
         
         // wrap the centerViewController in a navigation controller, so we can push views to it
@@ -98,7 +103,7 @@ class ContainerViewController: UIViewController, CenterViewControllerDelegate, U
     }
     
     func animateCenterPanelXPosition(#targetPosition: CGFloat, completion: ((Bool) -> Void)! = nil) {
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
+        UIView.animateWithDuration(0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .CurveEaseInOut, animations: {
             self.centerNavigationController.view.frame.origin.x = targetPosition
             }, completion: completion)
     }

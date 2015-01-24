@@ -58,7 +58,7 @@ class ArticleDetailViewController : UIViewController {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePanGesture:")
         self.navigationController?.view.addGestureRecognizer(panGestureRecognizer)
         
-        println(news)
+        // println(news)
         self.navigationItem.title = news?.valueForKey("title") as? String
         titleText.text = news?.valueForKey("title") as? String
         content = getParagraphText()
@@ -67,10 +67,12 @@ class ArticleDetailViewController : UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         startTimer()
+        UIApplication.sharedApplication().idleTimerDisabled = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         EndTimer()
+        UIApplication.sharedApplication().idleTimerDisabled = false
     }
     
     
@@ -229,6 +231,8 @@ class ArticleDetailViewController : UIViewController {
     }
     
     func handlePanGesture(recognizer: UIPanGestureRecognizer) {
+        
+        return
         
         let downDistance = Float(recognizer.translationInView(view).y)
         let threshold : Float = 50.0
