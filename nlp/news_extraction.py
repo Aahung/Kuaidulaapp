@@ -7,6 +7,8 @@ import time
 import chardet
 import jieba
 from time import gmtime, strftime
+import news_validate_checking
+
 headers = {'content-type':'application/json'}
 f = open('rss_url', 'r')
 China_url = f.readline()
@@ -26,7 +28,7 @@ Kejix_url = Kejix_url[6:]
 
 f.close()
 def run_it():
-	print "run_it"
+	#print "run_it"
 	conn = sqlite3.connect('news_source.db')
 	c = conn.cursor()
 	try:
@@ -91,7 +93,7 @@ def run_it():
 	conn.close()
 	mid_newspaper()
 
-def newspaper_processing(url,category):
+def newspaper_processing(url,category,title_in_database):
 	print "newspaper_processing"
 	paragraphs = []
 	from newspaper import Article
@@ -141,6 +143,8 @@ def newspaper_processing(url,category):
 				}]
 			})
 	title = temp.title
+	if news_validate_checking.invalid_title(title):
+		title = title_in_database
 	temp.title=title.encode('utf-8')
 	for keyword in temp.keywords:
 		keyword = keyword.encode('utf-8')
@@ -161,15 +165,15 @@ def newspaper_processing(url,category):
 
 
 def mid_newspaper():
-	print "mid_newspaper"
+	#print "mid_newspaper"
 	conn = sqlite3.connect('news_source.db')
 	c = conn.cursor()
-	sql = "SELECT url,label FROM source WHERE cencored=0"
+	sql = "SELECT url,label,title FROM source WHERE cencored=0"
 	urls = c.execute(sql)
 	for url_uncencored in urls:
-		if newspaper_processing(url_uncencored[0],url_uncencored[1]):
+		if newspaper_processing(url_uncencored[0],url_uncencored[1],url_uncencored[2]):
 			sql_update = "UPDATE source SET cencored=1 WHERE url=" +"'"+ url_uncencored[0] +"'"
-		elif newspaper_processing(url_uncencored[0],url_uncencored[1]):
+		elif newspaper_processing(url_uncencored[0],url_uncencored[1],url_uncencored[2]):
 			sql_update = "UPDATE source SET cencored=1 WHERE url=" +"'"+ url_uncencored[0] +"'"
 		else:
 			sql_update = "UPDATE source SET cencored=-2 WHERE url=" +"'"+ url_uncencored[0] +"'"
