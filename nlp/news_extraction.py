@@ -103,7 +103,11 @@ def newspaper_processing(url,category,title_in_database):
 	except Exception, e:
 		print str(e)
 		return False
-	myChar = chardet.detect(temp.html[:2000])
+	try:
+		myChar = chardet.detect(temp.html[:2000])
+	except Exception, e:
+		print str(e)
+		return False
 	bianma = myChar['encoding']
 	if bianma == 'utf-8' or bianma == 'UTF-8':
 		#html=html.decode('utf-8','ignore').encode('utf-8')
