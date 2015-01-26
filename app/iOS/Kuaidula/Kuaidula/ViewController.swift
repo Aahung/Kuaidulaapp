@@ -154,6 +154,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 cell.contentView.alpha = 1.0
             }
             
+            // shadow
+            
+//            cell.backgroundPanel.layer.shadowColor = UIColor.blackColor().CGColor
+//            cell.backgroundPanel.layer.shadowOpacity = 0.2;
+//            cell.backgroundPanel.layer.shadowRadius = 1.5;
+//            cell.backgroundPanel.layer.shadowOffset = CGSizeMake(0.0, 0.0);
+            
+            //let selectionBackgroundView = UIView(frame: cell.frame)
+            //selectionBackgroundView.backgroundColor = UIColor.whiteColor()
+            cell.selectionStyle = UITableViewCellSelectionStyle.Gray
+            
             return cell
     }
     
@@ -173,12 +184,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         let attributedString = NSAttributedString(string: content!, attributes: [NSFontAttributeName: font])
-        let rect = attributedString.boundingRectWithSize(CGSize(width: UIScreen.mainScreen().bounds.width - 20, height: 1000.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rect = attributedString.boundingRectWithSize(CGSize(width: UIScreen.mainScreen().bounds.width - 10, height: 1000.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         
         let size = rect.size
         // println("width: \(UIScreen.mainScreen().bounds.width), height: \(size.height)")
-        return size.height + 40
+        return size.height + 51.0
     }
+    
+    
     
     func updateNews() {
         
@@ -186,14 +199,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.refreshControl!.beginRefreshing()
         
         self.appDelegate.syncFromCoreDate()
-        
         var startId = "0"
         let endId = "0"
         if self.appDelegate.news.count > 0 {
             startId = self.appDelegate.getLargestNewsId()
         }
         
-        Alamofire.request(.GET, "http://app.kuaidula.com/0.2/articles/uncensored/\(startId)/\(endId)/", parameters: ["foo": "bar"])
+        Alamofire.request(.GET, "https://app.kuaidula.com/0.2/articles/uncensored/\(startId)/\(endId)/")
             .responseJSON { (request, response, JSON, error) in
                 if error != nil {
                     println(error)
@@ -246,15 +258,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                             }
                             self.appDelegate.news.append(aNews)
                         }
-                    
                         
-                        self.appDelegate.updateFilteredNews()
-                    
-                        dispatch_async(dispatch_get_main_queue(), {
-                            self.updateView()
-                            self.refreshControl!.endRefreshing()
-                        })
                     }
+                    
+                    self.appDelegate.updateFilteredNews()
+                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.updateView()
+                        self.refreshControl!.endRefreshing()
+                    })
                 }
         }
         

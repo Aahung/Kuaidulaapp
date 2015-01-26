@@ -17,5 +17,6 @@ class ArticleTableCell: UITableViewCell {
     
     @IBOutlet weak var categoryLabel: UILabel!
     
-    
+    @IBOutlet weak var backgroundPanel: UIView!
+
 }
