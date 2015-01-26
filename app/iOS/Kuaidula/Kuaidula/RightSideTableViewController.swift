@@ -12,15 +12,20 @@ import CoreData
 
 class RightSideTableViewController: UITableViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
+    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
     var containerViewController: ContainerViewController?
     
     @IBOutlet weak var nametextField: UITextField!
+    
+    @IBOutlet weak var sizeOfDataLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.tableFooterView = UIView()
         
         nametextField.text = User().getUserName()
+            
+        sizeOfDataLabel.text = "\(self.appDelegate.news.count)条新闻"
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
