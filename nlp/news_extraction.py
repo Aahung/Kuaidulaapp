@@ -24,7 +24,24 @@ len_zong = len(Zonghe_url)
 Zonghe_url = Zonghe_url[6:len_zong-1]
 
 Kejix_url = f.readline()
-Kejix_url = Kejix_url[6:]
+len_keji = len(Kejix_url)
+Kejix_url = Kejix_url[6:len_keji-1]
+
+Sport_url = f.readline()
+len_Sport = len(Sport_url)
+Sport_url = Sport_url[6:len_Sport-1]
+
+Milit_url = f.readline()
+len_Milit = len(Milit_url)
+Milit_url = Milit_url[6:len_Milit-1]
+
+Autos_url = f.readline()
+len_Autos = len(Autos_url)
+Autos_url = Autos_url[6:len_Autos-1]
+
+Educa_url = f.readline()
+len_Educa = len(Educa_url)
+Educa_url = Educa_url[6:len_Educa-1]
 
 f.close()
 def run_it():
@@ -88,6 +105,66 @@ def run_it():
 			item[5].text = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 		time = item[5].text.encode('utf-8')
 		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','kejix','" + "0" + "')"
+		c.execute(sql)
+		conn.commit()
+	try:
+		tree = ET.parse(Sport_url)#Sports news
+	except Exception, e:
+		return "xml_sport"
+	root = tree.getroot()
+	for item in root[0][10:]:
+		title_len = len(item[0].text)
+		title = item[0].text[5:title_len-4].encode('utf-8')
+		url = item[1].text.encode('utf-8')
+		if item[5].text is None:
+			item[5].text = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+		time = item[5].text.encode('utf-8')
+		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','sport','" + "0" + "')"
+		c.execute(sql)
+		conn.commit()
+	try:
+		tree = ET.parse(Milit_url)#Military news
+	except Exception, e:
+		return "xml_milit"
+	root = tree.getroot()
+	for item in root[0][10:]:
+		title_len = len(item[0].text)
+		title = item[0].text[5:title_len-4].encode('utf-8')
+		url = item[1].text.encode('utf-8')
+		if item[5].text is None:
+			item[5].text = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+		time = item[5].text.encode('utf-8')
+		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','milit','" + "0" + "')"
+		c.execute(sql)
+		conn.commit()
+	try:
+		tree = ET.parse(Autos_url)#Cars news
+	except Exception, e:
+		return "xml_autos"
+	root = tree.getroot()
+	for item in root[0][10:]:
+		title_len = len(item[0].text)
+		title = item[0].text[5:title_len-4].encode('utf-8')
+		url = item[1].text.encode('utf-8')
+		if item[5].text is None:
+			item[5].text = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+		time = item[5].text.encode('utf-8')
+		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','autos','" + "0" + "')"
+		c.execute(sql)
+		conn.commit()
+	try:
+		tree = ET.parse(Educa_url)#Education news
+	except Exception, e:
+		return "xml_educa"
+	root = tree.getroot()
+	for item in root[0][10:]:
+		title_len = len(item[0].text)
+		title = item[0].text[5:title_len-4].encode('utf-8')
+		url = item[1].text.encode('utf-8')
+		if item[5].text is None:
+			item[5].text = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+		time = item[5].text.encode('utf-8')
+		sql = "INSERT OR IGNORE INTO source " + "VALUES ('" + title + "','" + url + "','" + time + "','educa','" + "0" + "')"
 		c.execute(sql)
 		conn.commit()
 	conn.close()
@@ -197,5 +274,13 @@ while True:
 		print "cannot load parse xml_zonghe"
 	elif returned == "xml_world":
 		print "cannot load parse xml_world"
+	elif returned == "xml_sport":
+		print "cannot load parse xml_sport"
+	elif returned == "xml_milit":
+		print "cannot load parse xml_milit"
+	elif returned == "xml_autos":
+		print "cannot load parse xml_autos"
+	elif returned == "xml_educa":
+		print "cannot load parse xml_educa"
 	run_it()
 	print strftime("%Y-%m-%d %H:%M:%S", gmtime())
