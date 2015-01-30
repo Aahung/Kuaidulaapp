@@ -7,6 +7,7 @@ import time
 import chardet
 import jieba
 from time import gmtime, strftime
+from time import sleep
 import news_validate_checking
 
 headers = {'content-type':'application/json'}
@@ -241,7 +242,12 @@ def newspaper_processing(url,category,title_in_database):
 		}
 	}
 	#print(payload)
-	res = requests.post('http://app.kuaidula.com/0.1/articles', data=json.dumps(payload), headers=headers)
+	try:
+		res = requests.post('http://app.kuaidula.com/0.1/articles', data=json.dumps(payload), headers=headers)
+	except requests.exceptions.ConnectionError:
+		print "connection refused"
+		sleep(10)
+		return False
 	return True
 
 
